@@ -17,6 +17,8 @@ int	load_files(t_data *data, int argc, char **argv)
 	return (TRUE);
 }
 
+//< infile cmd1 cmd2 > outfile
+
 int	main(int argc, char **argv, char **env)
 {
 	t_data	data;
@@ -29,10 +31,20 @@ int	main(int argc, char **argv, char **env)
 		if (load_files(&data, argc, argv) == FALSE)
 			write(1, "error\n", 6);
 		cmd[0] = argv[2];
-		printf("%s\n", argv[2]);
-		cmd[1] = argv[0];
+		cmd[1] = argv[3];
+		printf("%s\n", cmd[0]);
+		printf("%s\n", cmd[1]);
 		if (execve(argv[2], cmd, env) < 0)
 			write(2, "error\n", 6);
+		exit(0);
 	}
+	int id = fork();
+	if (id)
+		printf("i'm parent %d\n", getpid());
+	else
+		printf("i'm child %d\n", getpid());
+	
+	int coucou[2];
+	pipe(coucou);
 	return (0);
 }
