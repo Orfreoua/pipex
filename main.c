@@ -17,27 +17,47 @@ int	load_files(t_data *data, int argc, char **argv)
 	return (TRUE);
 }
 
+char	**load_cmds(int argc, char **argv)
+{
+	char	**cmds;
+	int		i;
+	
+	cmds = malloc(sizeof(char *) * (argc - 2));
+	if (!cmds)
+		ft_putstr_fd("Malloc failed\n", 2);
+	else
+	{
+		i = 2;
+		while (i < (argc - 1))
+		{
+			cmds[i - 2] = ft_strdup(argv[i]);
+			i++;
+		}
+		cmds[i - 1] = 0;
+	}
+	return (cmds);
+}
+
 //< infile cmd1 cmd2 > outfile
 
 int	main(int argc, char **argv, char **env)
 {
 	t_data	data;
-	char	*cmd[2];
 
 	if ((!BONUS && argc != 5) || argc < 5)
-		write(1, "error\n", 6);
-	else
 	{
-		if (load_files(&data, argc, argv) == FALSE)
-			write(1, "error\n", 6);
-		cmd[0] = argv[2];
-		cmd[1] = argv[3];
-		printf("%s\n", cmd[0]);
-		printf("%s\n", cmd[1]);
-		if (execve(argv[2], cmd, env) < 0)
-			write(2, "error\n", 6);
-		exit(0);
+		ft_putstr_fd("error wrong number of arguments\n", 2);
+		//return (0);
 	}
+	if (load_files(&data, argc, argv) == FALSE)
+		ft_putstr_fd("error the file descriptor miss loading\n", 2);
+	data.cmds = load_cmds(argc, argv);
+	if (!data.cmds)
+		return (1);
+	/*
+	if (execve(argv[2], data.cmds, env) < 0)
+		write(2, "error\n", 6);
+	exit(0);*/
 	int id = fork();
 	if (id)
 		printf("i'm parent %d\n", getpid());

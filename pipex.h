@@ -11,7 +11,8 @@
 
 typedef struct s_data
 {
-    int fd[2];
+	int		fd[2];
+	char	**cmds;
 
 }	t_data;
 
@@ -23,5 +24,8 @@ typedef struct s_data
 # include <stdio.h>
 # include <string.h>
 # include <sys/wait.h>
+
+void	ft_putstr_fd(char *s, int fd);
+char	*ft_strdup(const char *s);
 
 #endif
