@@ -12,6 +12,9 @@
 typedef struct s_data
 {
 	int		fd[2];
+	int		fd_in;
+	int		count;
+	pid_t	pid;
 	char	**cmds;
 
 }	t_data;

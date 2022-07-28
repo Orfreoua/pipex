@@ -44,27 +44,39 @@ int	main(int argc, char **argv, char **env)
 {
 	t_data	data;
 
+	(void)argc;
+	(void)argv;
+	(void)env;
+
 	if ((!BONUS && argc != 5) || argc < 5)
 	{
 		ft_putstr_fd("error wrong number of arguments\n", 2);
-		//return (0);
+		return (0);
 	}
-	if (load_files(&data, argc, argv) == FALSE)
-		ft_putstr_fd("error the file descriptor miss loading\n", 2);
 	data.cmds = load_cmds(argc, argv);
 	if (!data.cmds)
 		return (1);
 	/*
 	if (execve(argv[2], data.cmds, env) < 0)
 		write(2, "error\n", 6);
-	exit(0);*/
+	exit(0);
+	dup2(fichier1, stdin);
+
 	int id = fork();
+	int pipe[2];
+	pipe(pipe);
 	if (id)
 		printf("i'm parent %d\n", getpid());
+		dup2(pipe[0], stdin)
+		waitpid(id)
 	else
 		printf("i'm child %d\n", getpid());
+		dup2(pipe[1], stdout)
+		execve()
+	dup2(fichier_sortie, stdout)
+	execve()
 	
 	int coucou[2];
-	pipe(coucou);
+	pipe(coucou);*/
 	return (0);
 }
